@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Ms+Madi&display=swap');
+.LandingPage{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.title{
+    color: white;
+    font-size: 75px;
+    font-family: 'Ms Madi', cursive;
+    margin-bottom: 20px;
+}
+
+.info{
+    color: rgba(255, 255, 255,.9);
+}
+
+.headerBreak{
+    width: 80%;
+}
+
+.options{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.option{
+    color: white;
+    background-color: black;
+    width: 25%;
+    margin: 50px 50px 0;
+    height: 75px;
+    font-size: 40px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 20px;
+    transition: all 0.3s;
+    border: 3px solid white;
+}
+
+.option:hover{
+    color: black;
+    background-color: rgba(255, 255, 255,.85);
+    border: 3px solid black;
+}
+
+@media screen and (max-width: 1200px) and (min-width: 480px) {
+    .options{
+        flex-direction: column;
+        width: 75%;
+    }
+    .option{
+        width: 100%;
+        margin: 50px 0 25px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .options{
+        flex-direction: column;
+        width: 75%;
+    }
+    .option{
+        width: 100%;
+        margin: 50px 0 25px;
+        font-size: 25px;
+    }
+    .title{
+        font-size: 50px;
+    }
+}
