@@ -3,8 +3,34 @@ const app = express();
 const port = 3001;
 
 function getBestNoMoves(s,n){
-    return(s-floor(s/(n+1))*(n+1)-1);
+    return(s-1-Math.floor((s-1)/(n+1))*(n+1));
 }
+
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
+app.get("/easy/startingValues",(req,res)=>{
+    const maxPerTurn = getRndInteger(2,5);
+    const size = 1+getRndInteger(3,5)*(maxPerTurn+1)+getRndInteger(1,maxPerTurn);
+    res.send({size:size,maxPerTurn:maxPerTurn});
+});
+
+app.get("/easy/noMoves/:currentSize/:maxNoMoves",(req,res)=>{
+    const currentSize = parseInt(req.params.currentSize);
+    const maxNoMoves = parseInt(req.params.maxNoMoves);
+    if(isNaN(currentSize)||isNaN(maxNoMoves)){
+        res.sendStatus(400).send('one or more of the parameters is NaN')
+    }else{
+        res.send(getRndInteger(1,maxNoMoves).toString());
+    }
+});
+
+app.get("/hard/startingValues",(req,res)=>{
+    const maxPerTurn = getRndInteger(2,5);
+    const size = 1+getRndInteger(3,5)*(maxPerTurn+1)+getRndInteger(1,maxPerTurn);
+    res.send({size:size,maxPerTurn:maxPerTurn});
+});
 
 app.get("/hard/noMoves/:currentSize/:maxNoMoves",(req,res)=>{
     const currentSize = parseInt(req.params.currentSize);
@@ -12,22 +38,19 @@ app.get("/hard/noMoves/:currentSize/:maxNoMoves",(req,res)=>{
     if(isNaN(currentSize)||isNaN(maxNoMoves)){
         res.sendStatus(400).send('one or more of the parameters is NaN')
     }else{
-        return getBestNoMoves(currentSize, maxNoMoves);
+        const noMoves = getBestNoMoves(currentSize, maxNoMoves);
+        if(noMoves===0){
+            res.send(getRndInteger(1,maxNoMoves).toString());
+        }else{
+            res.send(getBestNoMoves(currentSize, maxNoMoves).toString());
+        }
     }
 });
 
-app.get("/hard/IBegin/:totalSize/:maxPerTurn",(req,res)=>{
-    const totalSize = parseInt(req.params.totalSize);
-    const maxPerTurn = parseInt(req.params.maxPerTurn);
-    if (isNaN(totalSize) || isNaN(maxPerTurn)) {
-        res.sendStatus(400).send('one or more of the parameters is NaN')
-    }else{
-        if (totalSize%(maxPerTurn+1)===0) {
-            res.send(true);
-        }else{
-            res.send(false);
-        }
-    }
+app.get("/unbeatable/startingValues",(req,res)=>{
+    const maxPerTurn = getRndInteger(2,5);
+    const size = 1+getRndInteger(3,5)*(maxPerTurn+1);
+    res.send({size:size,maxPerTurn:maxPerTurn});
 });
 
 app.get("/unbeatable/noMoves/:currentSize/:maxNoMoves",(req,res)=>{
@@ -36,21 +59,7 @@ app.get("/unbeatable/noMoves/:currentSize/:maxNoMoves",(req,res)=>{
     if(isNaN(currentSize)||isNaN(maxNoMoves)){
         res.sendStatus(400).send('one or more of the parameters is NaN')
     }else{
-        return getBestNoMoves(currentSize, maxNoMoves);
-    }
-});
-
-app.get("/unbeatable/IBegin/:totalSize/:maxPerTurn",(req,res)=>{
-    const totalSize = parseInt(req.params.totalSize);
-    const maxPerTurn = parseInt(req.params.maxPerTurn);
-    if (isNaN(totalSize) || isNaN(maxPerTurn)) {
-        res.sendStatus(400).send('one or more of the parameters is NaN')
-    }else{
-        if (totalSize%(maxPerTurn+1)===0) {
-            res.send(false);
-        }else{
-            res.send(true);
-        }
+        res.send(getBestNoMoves(currentSize, maxNoMoves).toString());
     }
 });
 
