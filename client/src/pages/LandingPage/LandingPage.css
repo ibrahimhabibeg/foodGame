@@ -28,25 +28,32 @@
 }
 
 .option{
-    color: white;
     background-color: black;
     width: 25%;
     margin: 50px 50px 0;
     height: 75px;
-    font-size: 40px;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
     border-radius: 20px;
     transition: all 0.3s;
     border: 3px solid white;
 }
+.option a{
+    color: white;
+    font-size: 40px;
+    text-decoration: none;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
 
 .option:hover{
-    color: black;
     background-color: rgba(255, 255, 255,.85);
     border: 3px solid black;
+}
+
+.option:hover a{
+    color: black;
 }
 
 @media screen and (max-width: 1200px) and (min-width: 480px) {
@@ -55,8 +62,8 @@
         width: 75%;
     }
     .option{
-        width: 100%;
-        margin: 50px 0 25px;
+        width: 80%;
+        margin: 50px auto 25px;
     }
 }
 
@@ -66,11 +73,13 @@
         width: 75%;
     }
     .option{
-        width: 100%;
-        margin: 50px 0 25px;
+        width: 80%;
+        margin: 50px auto 25px;
+    }
+    .option a{
         font-size: 25px;
     }
     .title{
-        font-size: 50px;
+        font-size: 60px;
     }
 }

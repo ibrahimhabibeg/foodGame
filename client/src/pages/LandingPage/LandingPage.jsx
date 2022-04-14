@@ -1,5 +1,6 @@
 import React from "react";
 import './LandingPage.css';
+import { Link } from "react-router-dom";
 
 export default function LandingPage(){
     return(
@@ -8,9 +9,9 @@ export default function LandingPage(){
             <h3 className="info">Don't eat the last piece</h3>
             <hr className="headerBreak"/>
             <div className="options">
-                <div className="option">Easy</div>
-                <div className="option">Hard</div>
-                <div className="option">Unbeatable</div>
+                <div className="option"><Link to="/easy">Easy</Link></div>
+                <div className="option"><Link to="/hard">Hard</Link></div>
+                <div className="option"><Link to="/unbeatable">Unbeatable</Link></div>
             </div>
         </div>
     );
