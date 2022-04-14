@@ -1,0 +1,52 @@
+.itemContainer{
+    width: 100px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: 0.3s;
+    border-radius: 10px;
+    cursor: pointer;
+
+}
+.itemContainer:hover{
+    background-color: white;
+}
+.itemContainer:hover .foodItem{
+    color: black;
+}
+.foodItem{
+    margin: 0 auto;
+    color: white;
+}
+
+@media screen and (max-width: 1200px) and (min-width: 700px) {
+    .itemContainer{
+        width: 80px;
+        height: 70px;
+    }
+    .foodItem{
+        font-size: 60px;
+    }
+}
+
+
+@media screen and (max-width: 700px) and (min-width: 480px) {
+    .itemContainer{
+        width: 70px;
+        height: 60px;
+    }
+    .foodItem{
+        font-size: 50px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .itemContainer{
+        width: 50px;
+        height: 50px;
+    }
+    .foodItem{
+        font-size: 40px;
+    }
+}

@@ -1,0 +1,112 @@
+
+.whoseTurn{
+    color: white;
+    font-family: 'Ms Madi', cursive;
+    font-size: 45px;
+}
+
+.content{
+    padding-bottom: 100px;
+}
+
+.gridContainer{
+    width: 850px;
+    margin: 30px auto 0;
+    display: grid;
+    grid-template-columns: 100px 100px 100px 100px 100px 100px;
+    justify-content: center;
+    gap: 50px;
+}
+
+.bottomDiv{
+    position: fixed;
+    background-color: black;
+    color: white;
+    height: 100px;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    font-size: 40px;
+    font-family: 'Ms Madi', cursive;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: -100px;
+}
+
+.bottomDiv btn{
+    padding: 5px 10px;
+    position: absolute;
+    right: 20px;
+    font-size: 35px;
+    border-radius: 10px;
+    transition: .3s;
+    cursor: pointer;
+}
+.unfinishedBtn{
+    border: 2px solid white;
+    color: white;
+    background-color: black;
+}
+.unfinishedBtn:hover{
+    border: 2px solid black;
+    color: black;
+    background-color: white;
+}
+
+.finishedBtn{
+    border: 2px solid black;
+    color: black;
+    background-color: white;
+}
+.finishedBtn:hover{
+    background-color: rgba(255,255,255,.8);
+}
+.disabledBtn{
+    opacity: 0.7;
+    border: 2px solid black;
+    color: black;
+    background-color: white;
+}
+
+
+@media screen and (max-width: 1200px) and (min-width: 700px) {
+    .gridContainer{
+        grid-template-columns: 80px 80px 80px 80px 80px;
+        width:550px;
+        gap: 35px;
+    }
+}
+
+@media screen and (max-width: 700px) and (min-width: 480px) {
+    .gridContainer{
+        grid-template-columns: 70px 70px 70px 70px;
+        gap: 30px;
+        width:370px;
+    }
+    .bottomDiv{
+        font-size: 30px;
+    }
+    .bottomDiv btn{
+        padding: 5px 7px;
+        font-size: 25px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .gridContainer{
+        grid-template-columns: 50px 50px 50px 50px;
+        gap: 20px;
+        width:260px;    
+    }
+    .bottomDiv span{
+        font-size: 30px;
+        margin-left: -50px;
+    }
+    .bottomDiv btn{
+        padding: 2px 5px;
+        font-size: 25px;
+    }
+}
+
