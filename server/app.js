@@ -10,6 +10,13 @@ function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
+// without it CORS will block connection
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+  });
+
 app.get("/easy/startingValues",(req,res)=>{
     const maxPerTurn = getRndInteger(2,5);
     const size = 1+getRndInteger(3,5)*(maxPerTurn+1)+getRndInteger(1,maxPerTurn);
@@ -50,7 +57,7 @@ app.get("/hard/noMoves/:currentSize/:maxNoMoves",(req,res)=>{
 app.get("/unbeatable/startingValues",(req,res)=>{
     const maxPerTurn = getRndInteger(2,5);
     const size = 1+getRndInteger(3,5)*(maxPerTurn+1);
-    res.send({size:size,maxPerTurn:maxPerTurn});
+    res.json({size:size,maxPerTurn:maxPerTurn});
 });
 
 app.get("/unbeatable/noMoves/:currentSize/:maxNoMoves",(req,res)=>{

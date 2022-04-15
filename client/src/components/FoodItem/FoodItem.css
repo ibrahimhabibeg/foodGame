@@ -7,18 +7,33 @@
     transition: 0.3s;
     border-radius: 10px;
     cursor: pointer;
-
 }
-.itemContainer:hover{
+.unclicked .foodItem{
+    color: white;
+}
+.unclicked:hover{
     background-color: white;
 }
-.itemContainer:hover .foodItem{
+.unclicked:hover .foodItem{
     color: black;
+}
+.clicked{
+    background-color: white;
+    opacity: .5;
+}
+.clicked .foodItem{
+    color: black;
+}
+.clicked:hover{
+    opacity: .8;
+}
+.invisible{
+    opacity: 0;
 }
 .foodItem{
     margin: 0 auto;
-    color: white;
 }
+
 
 @media screen and (max-width: 1200px) and (min-width: 700px) {
     .itemContainer{

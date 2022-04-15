@@ -21,13 +21,10 @@
 .bottomDiv{
     position: fixed;
     background-color: black;
-    color: white;
     height: 100px;
     width: 100%;
     bottom: 0;
     left: 0;
-    font-size: 40px;
-    font-family: 'Ms Madi', cursive;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -35,19 +32,26 @@
     margin-top: -100px;
 }
 
-.bottomDiv btn{
+.bottomDiv span{
+    font-size: 40px;
+    font-family: 'Ms Madi', cursive;
+    color: white;
+}
+
+.bottomDiv button{
     padding: 5px 10px;
     position: absolute;
     right: 20px;
     font-size: 35px;
     border-radius: 10px;
     transition: .3s;
-    cursor: pointer;
+    font-family: 'Ms Madi', cursive;
 }
 .unfinishedBtn{
     border: 2px solid white;
     color: white;
     background-color: black;
+    cursor: pointer;
 }
 .unfinishedBtn:hover{
     border: 2px solid black;
@@ -59,6 +63,7 @@
     border: 2px solid black;
     color: black;
     background-color: white;
+    cursor: pointer;
 }
 .finishedBtn:hover{
     background-color: rgba(255,255,255,.8);
@@ -68,6 +73,7 @@
     border: 2px solid black;
     color: black;
     background-color: white;
+    cursor: not-allowed;
 }
 
 
@@ -88,7 +94,7 @@
     .bottomDiv{
         font-size: 30px;
     }
-    .bottomDiv btn{
+    .bottomDiv button{
         padding: 5px 7px;
         font-size: 25px;
     }
@@ -104,7 +110,7 @@
         font-size: 30px;
         margin-left: -50px;
     }
-    .bottomDiv btn{
+    .bottomDiv button{
         padding: 2px 5px;
         font-size: 25px;
     }
