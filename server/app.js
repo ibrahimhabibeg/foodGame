@@ -29,7 +29,7 @@ app.get("/easy/noMoves/:currentSize/:maxNoMoves",(req,res)=>{
     if(isNaN(currentSize)||isNaN(maxNoMoves)){
         res.sendStatus(400).send('one or more of the parameters is NaN')
     }else{
-        res.send(getRndInteger(1,maxNoMoves).toString());
+        res.json({noMoves:getRndInteger(1,maxNoMoves)});
     }
 });
 
@@ -47,9 +47,9 @@ app.get("/hard/noMoves/:currentSize/:maxNoMoves",(req,res)=>{
     }else{
         const noMoves = getBestNoMoves(currentSize, maxNoMoves);
         if(noMoves===0){
-            res.send(getRndInteger(1,maxNoMoves).toString());
+            res.json({noMoves:getRndInteger(1,maxNoMoves)});
         }else{
-            res.send(getBestNoMoves(currentSize, maxNoMoves).toString());
+            res.json({noMoves:getBestNoMoves(currentSize, maxNoMoves)});
         }
     }
 });
@@ -66,7 +66,7 @@ app.get("/unbeatable/noMoves/:currentSize/:maxNoMoves",(req,res)=>{
     if(isNaN(currentSize)||isNaN(maxNoMoves)){
         res.sendStatus(400).send('one or more of the parameters is NaN')
     }else{
-        res.send(getBestNoMoves(currentSize, maxNoMoves).toString());
+        res.json({noMoves:getBestNoMoves(currentSize, maxNoMoves)});
     }
 });
 

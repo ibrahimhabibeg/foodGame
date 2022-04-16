@@ -4,10 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function FoodItem(props){
     function handleClick(){
-        if(props.state==="0"){
-            props.onClick(props.index, "1");
-        }else if(props.state==="1"){
-            props.onClick(props.index, "0");
+        if (props.userTurn) {
+            if(props.state==="0"){
+                props.onClick(props.index, "1");
+            }else if(props.state==="1"){
+                props.onClick(props.index, "0");
+            }
         }
     }
     return(

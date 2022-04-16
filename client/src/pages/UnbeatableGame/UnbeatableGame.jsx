@@ -17,6 +17,7 @@ export default function UnbeatableGame(){
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [remaining, setRemaining] = useState(0);
+    const [userTurn, setUserTurn] = useState(true);
     // 0 means unclicked; 1 clicked but not submited; 2 sumbited
     const [currentState, setCurrentState] = useState([]);
     useEffect(()=>{
@@ -36,19 +37,42 @@ export default function UnbeatableGame(){
         });
     },[]);
 
-    function handleFoodClick(index, newState){
-        if((newState==="1" && remaining!==0)||newState==="0"){
+    function handleFoodClick(index, newState, updatedRemaining){
+        let currentRemaining = remaining;
+        if(updatedRemaining){
+            currentRemaining = updatedRemaining;
+        }
+        if((newState==="1" && currentRemaining!==0)||newState==="0"){
             let newStates = currentState;
             newStates[index] = newState;
             setCurrentState([...newStates]);
             if (newState==="0") {
-                setRemaining(remaining+1);
+                setRemaining(currentRemaining+1);
             }else{
-                setRemaining(remaining-1);
+                setRemaining(currentRemaining-1);
             }
         }
     }
-    function submit(){
+    function serverPlay(nonRemovedItems){
+        fetch(`http://localhost:3001/unbeatable/noMoves/${nonRemovedItems.length}/${maxPerTurn}`)
+            .then(res=>res.json())
+            .then(json=>{
+                let serverNoMoves = json.noMoves;
+                let chosenItems = [];
+                for (let i = 0; i < serverNoMoves; i++) {
+                    let rndPosition = getRndInteger(0, nonRemovedItems.length-1);
+                    chosenItems.push(nonRemovedItems[rndPosition]);
+                    nonRemovedItems.splice(rndPosition,1);
+                }
+                chosenItems.forEach((item,index)=>{
+                    handleFoodClick(item,"1", maxPerTurn-index);
+                });
+            })
+            .catch(err=>{
+                setError(true);
+            }).finally(setTimeout(()=>submit(false), 600));        
+    }
+    function submit(newUserTurn){
         if (remaining<maxPerTurn) {
             let newStates = currentState;
             newStates.forEach((state,index)=>{
@@ -56,8 +80,28 @@ export default function UnbeatableGame(){
                     newStates[index]="2";
                 }
             });
-            setCurrentState([...newStates]);
-            setRemaining(maxPerTurn);
+            let nonRemovedItems = [];
+            newStates.forEach((item,index)=>{
+                if (item === "0") {
+                    nonRemovedItems.push(index);
+                }
+            });
+            if (nonRemovedItems.length === 0) {
+                console.log('====================================');
+                console.log("done");
+                console.log('====================================');
+            }else{
+                let currentUserTurn = userTurn;
+                if (typeof newUserTurn !== 'undefined') {
+                    currentUserTurn = newUserTurn;
+                }
+                setCurrentState([...newStates]);
+                setRemaining(maxPerTurn);
+                if(currentUserTurn){
+                    serverPlay(nonRemovedItems);
+                }
+                setUserTurn(!currentUserTurn);
+            } 
         }
     }
 
@@ -72,7 +116,8 @@ export default function UnbeatableGame(){
                 <div className="gridContainer">
                     {
                         currentState.map((state,index)=>{
-                            return(<FoodItem key={index} index={index} item={selectedFoodItem} state={state} onClick={handleFoodClick}/>);
+                            return(<FoodItem key={index} index={index} item={selectedFoodItem} state={state} 
+                                onClick={handleFoodClick} userTurn={userTurn}/>);
                         })
                     }
                     
