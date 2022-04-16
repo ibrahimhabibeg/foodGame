@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "./UnbeatableGame.css";
+import "./TheGame.css";
+import { useLocation } from 'react-router-dom'
 import FoodItem from "../../components/FoodItem/FoodItem";
 import {faPizzaSlice, faBurger, faBowlFood, faBowlRice, faCake, faCandyCane, faCheese, faCoffee, 
     faCookie, faFish, faEgg, faDrumstickBite, faIceCream, faLemon, faHotdog, faMugHot} from "@fortawesome/free-solid-svg-icons";
@@ -11,8 +12,11 @@ function getRndInteger(min, max) {
 }
 const selectedFoodItem = foodItems[getRndInteger(0,foodItems.length-1)];
 
-export default function UnbeatableGame(){
-    const [size, setSize] = useState(0);
+
+
+export default function TheGame(){
+    const location = useLocation();
+    const difficulty = location.pathname;
     const [maxPerTurn, setMaxPerTurn] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -21,10 +25,9 @@ export default function UnbeatableGame(){
     // 0 means unclicked; 1 clicked but not submited; 2 sumbited
     const [currentState, setCurrentState] = useState([]);
     useEffect(()=>{
-        fetch("http://localhost:3001/unbeatable/startingValues")
+        fetch(`http://localhost:3001${difficulty}/startingValues`)
             .then(res=>res.json())
             .then(json=>{
-                setSize(json.size);
                 setMaxPerTurn(json.maxPerTurn);
                 setCurrentState(Array.from("0".repeat(json.size)));
                 setRemaining(json.maxPerTurn);
@@ -54,7 +57,7 @@ export default function UnbeatableGame(){
         }
     }
     function serverPlay(nonRemovedItems){
-        fetch(`http://localhost:3001/unbeatable/noMoves/${nonRemovedItems.length}/${maxPerTurn}`)
+        fetch(`http://localhost:3001${difficulty}/noMoves/${nonRemovedItems.length}/${maxPerTurn}`)
             .then(res=>res.json())
             .then(json=>{
                 let serverNoMoves = json.noMoves;
@@ -86,15 +89,19 @@ export default function UnbeatableGame(){
                     nonRemovedItems.push(index);
                 }
             });
+            let currentUserTurn = userTurn;
+            if (typeof newUserTurn !== 'undefined') {
+                currentUserTurn = newUserTurn;
+            }
+
             if (nonRemovedItems.length === 0) {
-                console.log('====================================');
-                console.log("done");
-                console.log('====================================');
-            }else{
-                let currentUserTurn = userTurn;
-                if (typeof newUserTurn !== 'undefined') {
-                    currentUserTurn = newUserTurn;
+                if (currentUserTurn) {
+                    console.log("user loses");
+                }else{
+                    console.log("user wins");
                 }
+            }else{
+                
                 setCurrentState([...newStates]);
                 setRemaining(maxPerTurn);
                 if(currentUserTurn){
