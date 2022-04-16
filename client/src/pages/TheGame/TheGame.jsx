@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./TheGame.css";
 import { useLocation } from 'react-router-dom'
 import FoodItem from "../../components/FoodItem/FoodItem";
+import { Link } from "react-router-dom";
+
 import {faPizzaSlice, faBurger, faBowlFood, faBowlRice, faCake, faCandyCane, faCheese, faCoffee, 
     faCookie, faFish, faEgg, faDrumstickBite, faIceCream, faLemon, faHotdog, faMugHot} from "@fortawesome/free-solid-svg-icons";
 
@@ -22,6 +24,8 @@ export default function TheGame(){
     const [error, setError] = useState(false);
     const [remaining, setRemaining] = useState(0);
     const [userTurn, setUserTurn] = useState(true);
+    const [gameFinished, setGameFinished] = useState(false);
+    const [userWins, setUserWins] = useState(false);
     // 0 means unclicked; 1 clicked but not submited; 2 sumbited
     const [currentState, setCurrentState] = useState([]);
     useEffect(()=>{
@@ -95,21 +99,24 @@ export default function TheGame(){
             }
 
             if (nonRemovedItems.length === 0) {
+                setGameFinished(true);
                 if (currentUserTurn) {
-                    console.log("user loses");
+                    setUserWins(false);
                 }else{
-                    console.log("user wins");
+                    setUserWins(true);
                 }
-            }else{
+            }else if(currentUserTurn){
+                serverPlay(nonRemovedItems);
+            }
                 
-                setCurrentState([...newStates]);
-                setRemaining(maxPerTurn);
-                if(currentUserTurn){
-                    serverPlay(nonRemovedItems);
-                }
-                setUserTurn(!currentUserTurn);
-            } 
+            setCurrentState([...newStates]);
+            setRemaining(maxPerTurn);
+            setUserTurn(!currentUserTurn);
+            
         }
+    }
+    function refreshPage(){
+        window.location.reload();
     }
 
     if(loading) return "Loading";
@@ -117,24 +124,35 @@ export default function TheGame(){
     return(
         <div className="UnbeatableGame">
             <div className="content">
-                <h1 className="whoseTurn">Your Turn</h1>
-                <h3 className="info">Maximum {maxPerTurn} moves</h3>
+                <h1 className="whoseTurn" style={gameFinished?{fontSize:"65px"}:{}}>
+                    {!gameFinished?"Your Turn":userWins?"You Win!":"You Lose"}
+                </h1>
+                {!gameFinished&&<h3 className="info">Maximum {maxPerTurn} moves</h3>}
                 <hr className="headerBreak"></hr>
-                <div className="gridContainer">
-                    {
-                        currentState.map((state,index)=>{
-                            return(<FoodItem key={index} index={index} item={selectedFoodItem} state={state} 
-                                onClick={handleFoodClick} userTurn={userTurn}/>);
-                        })
-                    }
-                    
-                </div>
-            </div>         
-            <div className="bottomDiv">
-                <span>{remaining} remaining</span>
-                <button className={remaining<maxPerTurn?remaining===0?"finishedBtn":"unfinishedBtn":"disabledBtn"} 
-                    onClick={submit}>Submit</button>
+                {gameFinished?
+                    <div className="options">
+                        <div className="option" onClick={refreshPage}><a>Play Again</a></div>
+                        <div className="option"><Link to="/">Home</Link></div>
+                    </div>                    
+                    :
+                    <div className="gridContainer">
+                        {
+                            currentState.map((state,index)=>{
+                                return(<FoodItem key={index} index={index} item={selectedFoodItem} state={state} 
+                                    onClick={handleFoodClick} userTurn={userTurn}/>);
+                            })
+                        }
+                    </div>
+                }
+                
             </div>
+            {!gameFinished&&
+                <div className="bottomDiv">
+                    <span>{remaining} remaining</span>
+                    <button className={remaining<maxPerTurn?remaining===0?"finishedBtn":"unfinishedBtn":"disabledBtn"} 
+                        onClick={submit}>Submit</button>
+                </div>
+            }         
         </div>
     );
 }
