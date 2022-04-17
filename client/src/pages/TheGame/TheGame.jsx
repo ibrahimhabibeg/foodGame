@@ -135,7 +135,13 @@ export default function TheGame(){
         </div>
         
     );
-    if(error) return "Error";
+    if(error) return(
+        <div style={{height:"75vh", display:"flex", flexDirection:"column", justifyContent:"center"}}>
+            <div style={{color:"white", fontSize:"35px"}}>
+                We are currently having trouble connecting to the server. Try again later.
+            </div>
+        </div>
+    );
     return(
         <div className="UnbeatableGame">
             <div className="content">
