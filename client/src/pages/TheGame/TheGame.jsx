@@ -119,7 +119,22 @@ export default function TheGame(){
         window.location.reload();
     }
 
-    if(loading) return "Loading";
+    if(loading) return(
+        <div className="LoadingPage">
+            <div class="loader">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        
+    );
     if(error) return "Error";
     return(
         <div className="UnbeatableGame">
